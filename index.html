@@ -299,11 +299,12 @@
           <span class="suffix">% / mes</span>
         </div>
       </div>
-      <div class="result-main">
+     
+    </div>
+     <div class="result-main">
         <div class="result-main-label">Monto a recibir</div>
         <div class="result-main-value" id="r-neto">—</div>
       </div>
-    </div>
     <button class="btn" onclick="calcular()">Calcular</button>
   </div>
 </div>
@@ -326,6 +327,8 @@ function calcular() {
   const intereses = monto * tasaDiaria * dias;
   const totalDesc = intereses + gastos;
   const neto = monto - totalDesc;
+
+  document.getElementById('r-neto').textContent        = '$' + fmt(neto);
 
   const sec = document.getElementById('resultado');
   sec.style.display = 'block';
