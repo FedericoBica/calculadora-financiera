@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DescuentaCheques</title>
+<title>Descuento de Cheques</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -272,6 +272,7 @@
 
 <div class="card">
   <div class="header">
+    <div class="header-label">Calculadora financiera</div>
     <h1>DescuentaCheques</h1>
   </div>
 
@@ -299,13 +300,43 @@
           <span class="suffix">% / mes</span>
         </div>
       </div>
-     
     </div>
-     <div class="result-main">
-        <div class="result-main-label">Monto a recibir</div>
-        <div class="result-main-value" id="r-neto">—</div>
+
+    <div class="field">
+      <label>Gastos de depósito</label>
+      <div class="input-wrap">
+        <span class="prefix">$</span>
+        <input type="number" id="gastos" value="0" step="0.01" min="0">
       </div>
+    </div>
+
     <button class="btn" onclick="calcular()">Calcular</button>
+  </div>
+  <button class="btn" id="btn-toggle" onclick="toggleDetalle()" style="background:#222;color:#888;border:1px solid #2e2e2e;margin-top:-8px;">Ocultar desglose</button>
+  <div class="result-section" id="resultado" class="hidden" style="display:none">
+    <div class="result-label">Desglose del descuento</div>
+    <div class="result-grid" id="r-grid">
+      <div class="result-item">
+        <div class="result-item-label">Capital desembolsado</div>
+        <div class="result-item-value pos" id="r-capital">—</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-label">Ganancia neta</div>
+        <div class="result-item-value pos" id="r-ganancia">—</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-label">Rendimiento</div>
+        <div class="result-item-value pos" id="r-rendimiento">—</div>
+      </div>
+      <div class="result-item">
+        <div class="result-item-label">TEA</div>
+        <div class="result-item-value pos" id="r-tea">—</div>
+      </div>
+    </div>
+    <div class="result-main">
+      <div class="result-main-label">Monto a recibir</div>
+      <div class="result-main-value" id="r-neto">—</div>
+    </div>
   </div>
 </div>
 
@@ -315,20 +346,36 @@ function fmt(n) {
 }
 
 function calcular() {
-  const monto  = parseFloat(document.getElementById('monto').value) || 0;
-  const dias   = parseFloat(document.getElementById('dias').value)  || 0;
-  const tasa   = parseFloat(document.getElementById('tasa').value)  || 0;
-  const gastos = parseFloat(document.getElementById('gastos').value) || 0;
+  const monto = parseFloat(document.getElementById('monto').value) || 0;
+  const dias = parseFloat(document.getElementById('dias').value) || 0;
+  const tasa = parseFloat(document.getElementById('tasa').value) || 0;
 
   // Tasa diaria equivalente: (1 + tasa_mensual/100)^(1/30) - 1
   const tasaDiaria = Math.pow(1 + tasa / 100, 1 / 30) - 1;
 
   // Descuento comercial: D = M * i_diaria * dias
   const intereses = monto * tasaDiaria * dias;
-  const totalDesc = intereses + gastos;
-  const neto = monto - totalDesc;
+  const neto = monto - intereses;
 
-  document.getElementById('r-neto').textContent        = '$' + fmt(neto);
+  const tea = Math.pow(1 + tasaDiaria, 365) - 1;
+  const rendimiento = (intereses / neto) * 100;
+
+  function toggleDetalle() {
+  const grid = document.getElementById('r-grid');
+  const btn = document.getElementById('btn-toggle');
+  const visible = grid.style.display !== 'none';
+  grid.style.display = visible ? 'none' : 'grid';
+  btn.textContent = visible ? 'Ver desglose' : 'Ocultar desglose';
+}
+
+  document.getElementById('r-tasa-diaria').textContent = (tasaDiaria * 100).toFixed(4) + '%';
+  document.getElementById('r-intereses').textContent = '−$' + fmt(intereses);
+  document.getElementById('r-neto').textContent = '$' + fmt(neto);
+
+  document.getElementById('r-capital').textContent = '$' + fmt(neto);
+  document.getElementById('r-ganancia').textContent = '+$' + fmt(intereses);
+  document.getElementById('r-rendimiento').textContent = rendimiento.toFixed(2) + '%';
+  document.getElementById('r-tea').textContent = (tea * 100).toFixed(2) + '%';
 
   const sec = document.getElementById('resultado');
   sec.style.display = 'block';
@@ -344,7 +391,7 @@ window.addEventListener('load', calcular);
 <style>
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>
 
