@@ -49,17 +49,6 @@
     border-bottom: 1px solid var(--border);
     background: linear-gradient(135deg, #1e1e1e, #161616);
     position: relative;
-    overflow: hidden;
-  }
-
-  .header::before {
-    content: '';
-    position: absolute;
-    top: -30px; right: -30px;
-    width: 100px; height: 100px;
-    background: var(--accent);
-    opacity: 0.06;
-    border-radius: 50%;
   }
 
   .header-label {
@@ -99,9 +88,7 @@
     color: var(--muted);
   }
 
-  .input-wrap {
-    position: relative;
-  }
+  .input-wrap { position: relative; }
 
   .prefix {
     position: absolute;
@@ -125,26 +112,21 @@
     font-size: 18px;
     font-weight: 500;
     outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    -moz-appearance: textfield;
+    transition: border-color 0.2s;
   }
-
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
 
   input[type="number"]:focus {
     border-color: var(--accent);
     box-shadow: 0 0 0 3px rgba(240,192,64,0.12);
   }
 
-  input[type="number"].no-prefix {
-    padding-left: 14px;
-  }
+  .no-prefix { padding-left: 14px !important; }
 
   .suffix {
     position: absolute;
     right: 14px;
-    top: 50%; transform: translateY(-50%);
+    top: 50%; 
+    transform: translateY(-50%);
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     color: var(--muted);
@@ -163,36 +145,31 @@
     border-radius: 12px;
     padding: 15px;
     font-family: 'Syne', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
-    letter-spacing: 0.05em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
-    margin-top: 4px;
+    transition: all 0.2s;
   }
 
   .btn:hover {
     background: #f7d060;
-    box-shadow: 0 8px 24px rgba(240,192,64,0.3);
     transform: translateY(-1px);
   }
 
-  .btn:active { transform: translateY(0); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    margin-top: -10px;
+    font-size: 11px;
+    padding: 8px;
+  }
 
   .result-section {
     background: #111;
     border-top: 1px solid var(--border);
     padding: 24px 32px 28px;
-  }
-
-  .result-label {
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
   }
 
   .result-grid {
@@ -210,9 +187,8 @@
   }
 
   .result-item-label {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 700;
-    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 4px;
@@ -220,13 +196,12 @@
 
   .result-item-value {
     font-family: 'DM Mono', monospace;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 15px;
     color: var(--text);
   }
 
-  .result-item-value.neg { color: var(--red); }
-  .result-item-value.pos { color: var(--green); }
+  .pos { color: var(--green); }
+  .neg { color: var(--red); }
 
   .result-main {
     background: linear-gradient(135deg, #1c1700, #1a1200);
@@ -238,33 +213,15 @@
     justify-content: space-between;
   }
 
-  .result-main-label {
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: 0.05em;
-  }
-
   .result-main-value {
     font-family: 'DM Mono', monospace;
-    font-size: 26px;
-    font-weight: 500;
+    font-size: 24px;
     color: var(--accent);
-    letter-spacing: -0.02em;
   }
 
-  .hidden { display: none; }
-
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 2px 0 6px;
-  }
-
-  @media (max-width: 400px) {
-    .body, .result-section { padding-left: 20px; padding-right: 20px; }
-    .header { padding: 22px 20px 18px; }
-    .result-main-value { font-size: 22px; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 </style>
 </head>
@@ -272,7 +229,7 @@
 
 <div class="card">
   <div class="header">
-    <div class="header-label">Calculadora financiera</div>
+    <div class="header-label">Cálculo de Inversión</div>
     <h1>DescuentaCheques</h1>
   </div>
 
@@ -281,7 +238,7 @@
       <label>Monto del cheque</label>
       <div class="input-wrap">
         <span class="prefix">$</span>
-        <input type="number" id="monto" value="169290.86" step="0.01" min="0">
+        <input type="number" id="monto" value="169290.86" step="0.01">
       </div>
     </div>
 
@@ -289,52 +246,52 @@
       <div class="field">
         <label>Días</label>
         <div class="input-wrap">
-          <input type="number" id="dias" value="90" step="1" min="1" class="no-prefix">
+          <input type="number" id="dias" value="90" class="no-prefix">
           <span class="suffix">días</span>
         </div>
       </div>
       <div class="field">
         <label>Tasa mensual</label>
         <div class="input-wrap">
-          <input type="number" id="tasa" value="3.9" step="0.01" min="0" class="no-prefix">
-          <span class="suffix">% / mes</span>
+          <input type="number" id="tasa" value="3.9" step="0.01" class="no-prefix">
+          <span class="suffix">%</span>
         </div>
       </div>
     </div>
 
     <div class="field">
-      <label>Gastos de depósito</label>
+      <label>Gastos de depósito / Otros</label>
       <div class="input-wrap">
         <span class="prefix">$</span>
-        <input type="number" id="gastos" value="0" step="0.01" min="0">
+        <input type="number" id="gastos" value="0" step="0.01">
       </div>
     </div>
 
-    <button class="btn" onclick="calcular()">Calcular</button>
+    <button class="btn" onclick="calcular()">Calcular Operación</button>
+    <button class="btn btn-secondary" id="btn-toggle" onclick="toggleDetalle()">Ocultar desglose</button>
   </div>
-  <button class="btn" id="btn-toggle" onclick="toggleDetalle()" style="background:#222;color:#888;border:1px solid #2e2e2e;margin-top:-8px;">Ocultar desglose</button>
-  <div class="result-section" id="resultado" class="hidden" style="display:none">
-    <div class="result-label">Desglose del descuento</div>
+
+  <div class="result-section" id="resultado">
     <div class="result-grid" id="r-grid">
       <div class="result-item">
-        <div class="result-item-label">Capital desembolsado</div>
-        <div class="result-item-value pos" id="r-capital">—</div>
+        <div class="result-item-label">Descuento (Interés)</div>
+        <div class="result-item-value neg" id="r-intereses">—</div>
       </div>
       <div class="result-item">
-        <div class="result-item-label">Ganancia neta</div>
-        <div class="result-item-value pos" id="r-ganancia">—</div>
+        <div class="result-item-label">Tasa Diaria</div>
+        <div class="result-item-value" id="r-tasa-diaria">—</div>
       </div>
       <div class="result-item">
-        <div class="result-item-label">Rendimiento</div>
+        <div class="result-item-label">Rendimiento Directo</div>
         <div class="result-item-value pos" id="r-rendimiento">—</div>
       </div>
       <div class="result-item">
-        <div class="result-item-label">TEA</div>
+        <div class="result-item-label">TEA Estructural</div>
         <div class="result-item-value pos" id="r-tea">—</div>
       </div>
     </div>
     <div class="result-main">
-      <div class="result-main-label">Monto a recibir</div>
+      <div style="font-size: 13px; font-weight: 700; color: var(--accent);">A RECIBIR / CAPITAL</div>
       <div class="result-main-value" id="r-neto">—</div>
     </div>
   </div>
@@ -345,55 +302,46 @@ function fmt(n) {
   return n.toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
+function toggleDetalle() {
+  const grid = document.getElementById('r-grid');
+  const btn = document.getElementById('btn-toggle');
+  const isHidden = grid.style.display === 'none';
+  grid.style.display = isHidden ? 'grid' : 'none';
+  btn.textContent = isHidden ? 'Ocultar desglose' : 'Ver desglose';
+}
+
 function calcular() {
   const monto = parseFloat(document.getElementById('monto').value) || 0;
   const dias = parseFloat(document.getElementById('dias').value) || 0;
-  const tasa = parseFloat(document.getElementById('tasa').value) || 0;
+  const tasaMensual = parseFloat(document.getElementById('tasa').value) || 0;
+  const gastos = parseFloat(document.getElementById('gastos').value) || 0;
 
-  // Tasa diaria equivalente: (1 + tasa_mensual/100)^(1/30) - 1
-  const tasaDiaria = Math.pow(1 + tasa / 100, 1 / 30) - 1;
-
-  // Descuento comercial: D = M * i_diaria * dias
+  // Tasa diaria compuesta
+  const tasaDiaria = Math.pow(1 + (tasaMensual / 100), 1 / 30) - 1;
+  
+  // Intereses (Descuento)
   const intereses = monto * tasaDiaria * dias;
-  const neto = monto - intereses;
+  const neto = monto - intereses - gastos;
 
+  // TEA y Rendimiento
   const tea = Math.pow(1 + tasaDiaria, 365) - 1;
-  const rendimiento = (intereses / neto) * 100;
+  const rendimiento = (intereses / neto) * 100; // Lo que gano sobre lo que puse
 
-  function toggleDetalle() {
-  const grid = document.getElementById('r-grid');
-  const btn = document.getElementById('btn-toggle');
-  const visible = grid.style.display !== 'none';
-  grid.style.display = visible ? 'none' : 'grid';
-  btn.textContent = visible ? 'Ver desglose' : 'Ocultar desglose';
-}
-
+  // Renderizado
   document.getElementById('r-tasa-diaria').textContent = (tasaDiaria * 100).toFixed(4) + '%';
-  document.getElementById('r-intereses').textContent = '−$' + fmt(intereses);
+  document.getElementById('r-intereses').textContent = '-$' + fmt(intereses);
   document.getElementById('r-neto').textContent = '$' + fmt(neto);
-
-  document.getElementById('r-capital').textContent = '$' + fmt(neto);
-  document.getElementById('r-ganancia').textContent = '+$' + fmt(intereses);
   document.getElementById('r-rendimiento').textContent = rendimiento.toFixed(2) + '%';
   document.getElementById('r-tea').textContent = (tea * 100).toFixed(2) + '%';
 
   const sec = document.getElementById('resultado');
   sec.style.display = 'block';
-  sec.style.animation = 'none';
-  sec.offsetHeight; // reflow
   sec.style.animation = 'fadeIn 0.35s ease';
 }
 
-// Auto-calc on load
-window.addEventListener('load', calcular);
+// Ejecutar al cargar
+window.onload = calcular;
 </script>
-
-<style>
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-</style>
 
 </body>
 </html>
