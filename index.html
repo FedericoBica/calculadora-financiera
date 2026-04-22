@@ -45,7 +45,7 @@
   }
 
   .header {
-    padding: 28px 24px 22px;
+    padding: 28px 21px 22px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(135deg, #1e1e1e, #161616);
     position: relative;
@@ -61,7 +61,7 @@
   }
 
   .header h1 {
-    font-size: 21px;
+    font-size: 20px;
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -305,7 +305,6 @@ function calcular() {
   const monto = parseFloat(document.getElementById('monto').value) || 0;
   const dias = parseFloat(document.getElementById('dias').value) || 0;
   const tasaMensual = parseFloat(document.getElementById('tasa').value) || 0;
-  const gastos = parseFloat(document.getElementById('gastos').value) || 0;
 
   // Tasa diaria compuesta
   const tasaDiaria = Math.pow(1 + (tasaMensual / 100), 1 / 30) - 1;
