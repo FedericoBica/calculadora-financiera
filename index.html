@@ -45,7 +45,7 @@
   }
 
   .header {
-    padding: 28px 21px 22px;
+    padding: 28px 18px 22px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(135deg, #1e1e1e, #161616);
     position: relative;
@@ -62,7 +62,7 @@
 
   .header h1 {
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 700;
     line-height: 1.1;
     letter-spacing: -0.02em;
   }
@@ -311,7 +311,7 @@ function calcular() {
   
   // Intereses (Descuento)
   const intereses = monto * tasaDiaria * dias;
-  const neto = monto - intereses - gastos;
+  const neto = monto - intereses;
 
   // TEA y Rendimiento
   const tea = Math.pow(1 + tasaDiaria, 365) - 1;
