@@ -45,7 +45,7 @@
   }
 
   .header {
-    padding: 28px 32px 22px;
+    padding: 28px 24px 22px;
     border-bottom: 1px solid var(--border);
     background: linear-gradient(135deg, #1e1e1e, #161616);
     position: relative;
@@ -61,7 +61,7 @@
   }
 
   .header h1 {
-    font-size: 24px;
+    font-size: 21px;
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -229,7 +229,6 @@
 
 <div class="card">
   <div class="header">
-    <div class="header-label">Cálculo de Inversión</div>
     <h1>DescuentaCheques</h1>
   </div>
 
@@ -259,22 +258,14 @@
       </div>
     </div>
 
-    <div class="field">
-      <label>Gastos de depósito / Otros</label>
-      <div class="input-wrap">
-        <span class="prefix">$</span>
-        <input type="number" id="gastos" value="0" step="0.01">
-      </div>
-    </div>
-
-    <button class="btn" onclick="calcular()">Calcular Operación</button>
+    <button class="btn" onclick="calcular()">Calcular</button>
     <button class="btn btn-secondary" id="btn-toggle" onclick="toggleDetalle()">Ocultar desglose</button>
   </div>
 
   <div class="result-section" id="resultado">
     <div class="result-grid" id="r-grid">
       <div class="result-item">
-        <div class="result-item-label">Descuento (Interés)</div>
+        <div class="result-item-label">Descuento</div>
         <div class="result-item-value neg" id="r-intereses">—</div>
       </div>
       <div class="result-item">
@@ -282,16 +273,16 @@
         <div class="result-item-value" id="r-tasa-diaria">—</div>
       </div>
       <div class="result-item">
-        <div class="result-item-label">Rendimiento Directo</div>
+        <div class="result-item-label">Rendimiento </div>
         <div class="result-item-value pos" id="r-rendimiento">—</div>
       </div>
       <div class="result-item">
-        <div class="result-item-label">TEA Estructural</div>
+        <div class="result-item-label">TEA</div>
         <div class="result-item-value pos" id="r-tea">—</div>
       </div>
     </div>
     <div class="result-main">
-      <div style="font-size: 13px; font-weight: 700; color: var(--accent);">A RECIBIR / CAPITAL</div>
+      <div style="font-size: 13px; font-weight: 700; color: var(--accent);">A RECIBIR</div>
       <div class="result-main-value" id="r-neto">—</div>
     </div>
   </div>
